@@ -2,6 +2,8 @@ import React, { useState, useEffect } from "react";
 import { DataTable } from "primereact/datatable";
 import { Column } from "primereact/column";
 import { Button } from "primereact/button";
+import ModalDiscipline from "./ModalDiscipline";
+
 
 const MiTabla = () => {
   const [products, setProducts] = useState([]);
@@ -25,6 +27,12 @@ const MiTabla = () => {
       >
         <Column field="name" header="Name"></Column>
         <Column field="category" header="Category"></Column>
+        <Column
+            header="Editar"
+            body={(rowData) => (
+              <ModalDiscipline rowData={rowData}/>
+            )}
+          ></Column>
       </DataTable>
     </div>
   );

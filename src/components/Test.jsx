@@ -1,12 +1,13 @@
 import React from "react";
 import MiTabla from "./MiTabla";
-import MiModal from "./MiModal";
+import ModalDiscipline from "./ModalDiscipline";
+
 
 const Test = () => {
   return (
   <div>
     <MiTabla/>
-    <MiModal/>
+    <ModalDiscipline/>
   </div>
   );
 };

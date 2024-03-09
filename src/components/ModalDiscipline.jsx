@@ -5,7 +5,7 @@ import { InputNumber } from "primereact/inputnumber";
 import { InputText } from "primereact/inputtext";
 import { Dropdown } from 'primereact/dropdown';
 
-const MiModal = () => {
+const ModalDiscipline = () => {
   const [visible, setVisible] = useState(false);
   const [selectedCity, setSelectedCity] = useState(null);
 
@@ -79,4 +79,4 @@ const MiModal = () => {
   );
 };
 
-export default MiModal;
+export default ModalDiscipline;
