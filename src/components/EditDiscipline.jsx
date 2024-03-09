@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { Button } from "primereact/button";
 import { Dialog } from "primereact/dialog";
 import { InputNumber } from "primereact/inputnumber";
@@ -60,6 +60,11 @@ const EditDiscipline = ({ rowData, setFlag }) => {
       });
   };
 
+  const cleanFields = () => {
+    setName("");
+    setSelectedType(null);
+  };
+
   const headerElement = (
     <div className="inline-flex align-items-center justify-content-center gap-2">
       <span className="font-bold white-space-nowrap">Agregar Disciplina</span>
@@ -68,7 +73,12 @@ const EditDiscipline = ({ rowData, setFlag }) => {
 
   const footerContent = (
     <div>
-      <Button label="limpiar" icon="pi pi-eraser" severity="warning" />
+      <Button
+        label="limpiar"
+        icon="pi pi-eraser"
+        severity="warning"
+        onClick={() => cleanFields()}
+      />
       <Button
         label="aceptar"
         icon="pi pi-user-edit"
