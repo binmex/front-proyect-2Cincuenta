@@ -1,7 +1,14 @@
 import React from "react";
+import MiTabla from "./MiTabla";
+import MiModal from "./MiModal";
 
 const Test = () => {
-  return <div>Test</div>;
+  return (
+  <div>
+    <MiTabla/>
+    <MiModal/>
+  </div>
+  );
 };
 
 export default Test;
