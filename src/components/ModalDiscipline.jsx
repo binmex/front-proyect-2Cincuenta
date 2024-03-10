@@ -90,7 +90,6 @@ const ModalDiscipline = ({ setFlag }) => {
   return (
     <div className="card flex justify-content-center">
       <Button
-        label="nueva disciplina"
         icon="pi pi-save"
         onClick={() => setVisible(true)}
       />

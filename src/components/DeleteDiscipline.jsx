@@ -33,7 +33,7 @@ const DeleteDiscipline = ({ rowData, setFlag }) => {
   return (
     <>
       <Button
-        label="Danger"
+        label="Eliminar"
         icon="pi pi-eraser"
         severity="danger"
         onClick={() => dropDiscipline()}
