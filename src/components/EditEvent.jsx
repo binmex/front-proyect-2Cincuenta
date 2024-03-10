@@ -8,7 +8,18 @@ import withReactContent from "sweetalert2-react-content";
 
 const EditEvent = ({ rowData, setUpdate }) => {
   const [visible, setVisible] = useState(false);
-  const [date, setDate] = useState(rowData.date);
+  // Suponiendo que rowData.date es una cadena en formato "dd/mm/yyyy"
+  const [date, setDate] = useState(() => {
+    const parts = rowData.date.split("/"); // Divide la cadena en partes: día, mes y año
+    // Asegúrate de que las partes estén en el orden correcto para el constructor de Date (año, mes - 1, día)
+    const dateObject = new Date(
+      parseInt(parts[2]),
+      parseInt(parts[1]) - 1,
+      parseInt(parts[0])
+    );
+    return dateObject;
+  });
+
   const [id, setId] = useState(rowData.id);
   const [name, setName] = useState(rowData.name);
 
@@ -51,11 +62,6 @@ const EditEvent = ({ rowData, setUpdate }) => {
       });
   };
 
-  const cleanFields = () => {
-    setName("");
-    setDate(null);
-  };
-
   const headerElement = (
     <div className="inline-flex align-items-center justify-content-center gap-2">
       <span className="font-bold white-space-nowrap">Editar Evento</span>
@@ -64,12 +70,6 @@ const EditEvent = ({ rowData, setUpdate }) => {
 
   const footerContent = (
     <div>
-      <Button
-        label="limpiar"
-        icon="pi pi-eraser"
-        severity="warning"
-        onClick={() => cleanFields()}
-      />
       <Button
         label="aceptar"
         icon="pi pi-user-edit"
