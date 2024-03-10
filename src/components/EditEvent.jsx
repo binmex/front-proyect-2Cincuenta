@@ -1,60 +1,51 @@
 import React, { useState } from "react";
 import { Button } from "primereact/button";
 import { Dialog } from "primereact/dialog";
-import { InputNumber } from "primereact/inputnumber";
 import { InputText } from "primereact/inputtext";
-import { Dropdown } from "primereact/dropdown";
-//sweetAlet
+import { Calendar } from "primereact/calendar"; // Importar el componente Calendar
 import Swal from "sweetalert2";
 import withReactContent from "sweetalert2-react-content";
 
-const EditEvent = ({ rowData }) => {
+const EditEvent = ({ rowData, setUpdate }) => {
   const [visible, setVisible] = useState(false);
-  const [selectedType, setSelectedType] = useState(rowData.type);
-  const [id, setID] = useState(rowData.id);
+  const [date, setDate] = useState(rowData.date);
+  const [id, setId] = useState(rowData.id);
   const [name, setName] = useState(rowData.name);
 
-  const tipies = [
-    { name: "Grupal", code: "GR" },
-    { name: "Individual", code: "IN" },
-  ];
-
-  const updateDiscipline = () => {
+  const updateEvent = () => {
     const MySwal = withReactContent(Swal);
-    const updateDiscipline = {
+    const updateEvent = {
       name: name,
-      type: selectedType.name,
+      date: date,
     };
 
-    fetch(`http://localhost:4000/event/${id}`, {
+    fetch(`http://localhost:4000/event/${rowData._id}`, {
       method: "PATCH",
       headers: {
         "Content-Type": "application/json",
       },
-      body: JSON.stringify(updateDiscipline),
+      body: JSON.stringify(updateEvent),
     })
       .then((response) => response.json())
       .then((data) => {
         setVisible(false);
-
         if (data.state) {
           MySwal.fire({
-            title: <p>Editado</p>,
+            title: "¡Evento editado correctamente!",
             icon: "success",
           });
+          setUpdate(true);
         } else {
           MySwal.fire({
-            title: <p>{data.error}</p>,
+            title: `Error al editar el evento: ${data.error}`, // Muestra el error proporcionado por el servidor
             icon: "error",
           });
         }
-
-        setFlag(true);
       })
       .catch((error) => {
         setVisible(false);
         MySwal.fire({
-          title: <p>{error}</p>,
+          title: `Error al editar el evento: ${error}`, // Muestra el mensaje de error de la excepción
           icon: "error",
         });
       });
@@ -62,6 +53,7 @@ const EditEvent = ({ rowData }) => {
 
   const cleanFields = () => {
     setName("");
+    setDate(null);
   };
 
   const headerElement = (
@@ -82,7 +74,7 @@ const EditEvent = ({ rowData }) => {
         label="aceptar"
         icon="pi pi-user-edit"
         severity="success"
-        onClick={() => updateDiscipline()}
+        onClick={() => updateEvent()}
       />
     </div>
   );
@@ -106,7 +98,17 @@ const EditEvent = ({ rowData }) => {
         <div className="card flex flex-column md:flex-row gap-3">
           <div className="p-inputgroup flex-1">
             <span className="p-inputgroup-addon">ID</span>
-            <InputNumber placeholder="ID" value={id} disabled />
+            <InputText
+              placeholder="ID"
+              value={id} // Asegúrate de enlazar el valor del input con el estado
+              onChange={(e) => {
+                const value = e.target.value;
+                const regex = /^[0-9]*$/; // Expresión regular para aceptar solo números
+                if (regex.test(value)) {
+                  setId(value); // Actualiza el estado solo si la entrada es un número
+                }
+              }}
+            />
           </div>
 
           <div className="p-inputgroup flex-1">
@@ -120,17 +122,16 @@ const EditEvent = ({ rowData }) => {
             />
           </div>
 
+          {/* Agregar input para la fecha */}
           <div className="p-inputgroup flex-1">
             <span className="p-inputgroup-addon">
-              <i className="pi pi-ticket"></i>
+              <i className="pi pi-calendar"></i>
             </span>
-            <Dropdown
-              value={selectedType}
-              onChange={(e) => setSelectedType(e.value)}
-              options={tipies}
-              optionLabel="name"
-              placeholder={selectedType}
-              className="w-full md:w-14rem"
+            <Calendar
+              value={date}
+              onChange={(e) => setDate(e.value)}
+              placeholder="Fecha"
+              showIcon
             />
           </div>
         </div>

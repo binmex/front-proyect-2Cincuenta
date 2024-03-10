@@ -5,6 +5,8 @@ import ModalEvent from "./ModalEvent";
 import { Card } from "primereact/card";
 import NavBar from "./NavBar";
 import { InputText } from "primereact/inputtext";
+import EditEvent from "./EditEvent";
+import DeleteEvent from "./DeleteEvent";
 
 const TableEvents = () => {
   const [events, setEvents] = useState([]);
@@ -13,26 +15,29 @@ const TableEvents = () => {
   const [update, setUpdate] = useState(true);
 
   useEffect(() => {
-  if (update) {
-    if (eventSearch) {
-      searchEvents();
-    } else {
-      loadEvents();
+    if (update) {
+      if (eventSearch) {
+        searchEvents();
+      } else {
+        loadEvents();
+      }
+      setUpdate(false); // Desactivar la actualización después de ejecutar una vez
     }
-    setUpdate(false); // Desactivar la actualización después de ejecutar una vez
-  }
-}, [eventSearch, update]);
+  }, [eventSearch, update]);
 
   const loadEvents = async () => {
     try {
       await fetch("http://localhost:4000/event")
         .then((response) => response.json())
         .then((resultado) => {
-          resultado.data.forEach((event) => {
-            event.date = new Date(parseInt(event.date)).toLocaleDateString();
+          const formattedEvents = resultado.data.map((event) => {
+            return {
+              ...event,
+              date: new Date(event.date).toLocaleDateString(),
+            };
           });
-          setEvents(resultado.data);
-          setOriginalEvents(resultado.data); // Guarda una copia de los eventos originales
+          setEvents(formattedEvents);
+          setOriginalEvents(formattedEvents); // Guarda una copia de los eventos originales
         });
     } catch (error) {
       console.error("Error al cargar eventos:", error);
@@ -97,13 +102,23 @@ const TableEvents = () => {
           header={header}
           footer={footer}
           tableStyle={{ minWidth: "60rem" }}
+          sortField="id"
+          sortOrder={1}
         >
           <Column field="id" header="ID"></Column>
           <Column field="name" header="Nombre"></Column>
           <Column field="date" header="Fecha"></Column>
           <Column
             header="Editar"
-            body={(rowData) => <ModalEvent rowData={rowData} />}
+            body={(rowData) => (
+              <EditEvent rowData={rowData} setUpdate={setUpdate} />
+            )}
+          ></Column>
+          <Column
+            header="Eliminar"
+            body={(rowData) => (
+              <DeleteEvent rowData={rowData} setUpdate={setUpdate} />
+            )}
           ></Column>
         </DataTable>
       </Card>
