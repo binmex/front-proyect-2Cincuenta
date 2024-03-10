@@ -42,6 +42,7 @@ const ModalDiscipline = ({ setFlag }) => {
             title: <p>Agregado</p>,
             icon: "success",
           });
+          cleanFields();
         } else {
           MySwal.fire({
             title: <p>{data.error}</p>,

@@ -83,12 +83,12 @@ const TableDiscipline = () => {
 
   const header = (
     <div className="flex flex-wrap align-items-center justify-content-between ">
-      <span className="text-xl text-900 font-bold">Products</span>
+      <span className="text-xl text-900 font-bold">Disciplinas</span>
     </div>
   );
-  const footer = `In total there are ${
+  const footer = `En total hay ${
     discipline ? discipline.length : 0
-  } products.`;
+  } disciplinas registradas.`;
 
   return (
     <Card title={search} style={{ margin: "15px" }}>
