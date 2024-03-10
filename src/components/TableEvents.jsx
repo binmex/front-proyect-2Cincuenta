@@ -9,16 +9,15 @@ import { InputText } from "primereact/inputtext";
 const TableEvents = () => {
   const [events, setEvents] = useState([]);
   const [eventSearch, setEventSearch] = useState("");
-  const [searchEvent, setSearchEvent] = useState(false);
   const [originalEvents, setOriginalEvents] = useState([]); // Mantén una copia de respaldo de los eventos originales
 
   useEffect(() => {
-    if (searchEvent) {
+    if (eventSearch) {
       searchEvents();
     } else {
       loadEvents();
     }
-  }, [searchEvent]);
+  }, [eventSearch]);
 
   const loadEvents = async () => {
     try {
@@ -39,8 +38,21 @@ const TableEvents = () => {
   const searchEvents = () => {
     // Filtrar los eventos originales según el valor de búsqueda
     const filteredEvents = originalEvents.filter((event) => {
-      // Verificar si el nombre del evento incluye las letras de eventSearch
-      return event.name.toLowerCase().includes(eventSearch.toLowerCase());
+      // Convertir el id del evento y el valor de búsqueda en cadenas
+      const eventIdString = event.id.toString();
+      const searchIdString = eventSearch.toString();
+
+      // Verificar si el id del evento coincide con el valor de búsqueda en orden exacto
+      if (eventIdString.length >= searchIdString.length) {
+        for (let i = 0; i < searchIdString.length; i++) {
+          if (eventIdString[i] !== searchIdString[i]) {
+            return false;
+          }
+        }
+        return true;
+      } else {
+        return false;
+      }
     });
 
     // Actualizar el estado de los eventos filtrados
@@ -51,10 +63,12 @@ const TableEvents = () => {
     <div style={{ display: "flex" }}>
       <InputText
         style={{ width: "100%" }}
-        onChange={(e) => {
+        onKeyUp={(e) => {
           const value = e.target.value;
-          setEventSearch(value);
-          setSearchEvent(value.trim() !== "");
+          const regex = /^[0-9]*$/; // Expresión regular para aceptar solo números
+          if (regex.test(value)) {
+            setEventSearch(value);
+          }
         }}
       />
       <ModalEvent />

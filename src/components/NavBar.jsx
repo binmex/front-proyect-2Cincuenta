@@ -4,46 +4,17 @@ import { Menubar } from 'primereact/menubar';
 const NavBar = () => {
     const items = [
         {
+            key: "home",
             label: 'Home',
             icon: 'pi pi-home'
         },
         {
+            key:"eventos",
             label: 'Features',
             icon: 'pi pi-star'
         },
         {
-            label: 'Projects',
-            icon: 'pi pi-search',
-            items: [
-                {
-                    label: 'Components',
-                    icon: 'pi pi-bolt'
-                },
-                {
-                    label: 'Blocks',
-                    icon: 'pi pi-server'
-                },
-                {
-                    label: 'UI Kit',
-                    icon: 'pi pi-pencil'
-                },
-                {
-                    label: 'Templates',
-                    icon: 'pi pi-palette',
-                    items: [
-                        {
-                            label: 'Apollo',
-                            icon: 'pi pi-palette'
-                        },
-                        {
-                            label: 'Ultima',
-                            icon: 'pi pi-palette'
-                        }
-                    ]
-                }
-            ]
-        },
-        {
+            key: "contact",
             label: 'Contact',
             icon: 'pi pi-envelope'
         }
@@ -51,9 +22,9 @@ const NavBar = () => {
 
     return (
         <div className="card">
-            <Menubar model={items} />
+            <Menubar model={items.map(item => ({...item, id: item.key}))} />
         </div>
     )
 }
 
-export default NavBar
+export default NavBar;
