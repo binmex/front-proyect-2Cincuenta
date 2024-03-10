@@ -5,18 +5,21 @@ const NavBar = () => {
     const items = [
         {
             key: "home",
-            label: 'Home',
-            icon: 'pi pi-home'
+            label: 'Disciplina',
+            icon: 'pi pi-sitemap',
+            url: "/disciplina"
         },
         {
             key:"eventos",
-            label: 'Features',
-            icon: 'pi pi-star'
+            label: 'Eventos',
+            icon: 'pi pi-calendar',
+            url: "/eventos"
         },
         {
             key: "contact",
-            label: 'Contact',
-            icon: 'pi pi-envelope'
+            label: 'Afiliados',
+            icon: 'pi pi-user-plus',
+            url: "/"
         }
     ];
 

@@ -77,7 +77,7 @@ const TableDiscipline = () => {
           }
         }}
       />
-      <ModalDiscipline setFlag={setFlag}/>
+      <ModalDiscipline setFlag={setFlag} />
     </div>
   );
 
@@ -97,6 +97,8 @@ const TableDiscipline = () => {
         header={header}
         footer={footer}
         tableStyle={{ minWidth: "60rem" }}
+        sortField="id"
+        sortOrder={1}
       >
         <Column field="id" header="ID"></Column>
         <Column field="name" header="Nombre"></Column>
