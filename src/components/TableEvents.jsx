@@ -7,6 +7,7 @@ import NavBar from "./NavBar";
 import { InputText } from "primereact/inputtext";
 import EditEvent from "./EditEvent";
 import DeleteEvent from "./DeleteEvent";
+import EventsResults from "./EventsResults";
 
 const TableEvents = () => {
   const [events, setEvents] = useState([]);
@@ -72,6 +73,7 @@ const TableEvents = () => {
     <div style={{ display: "flex" }}>
       <InputText
         style={{ width: "100%" }}
+        placeholder="Ingrese números para comenzar a buscar por ID..."
         onKeyUp={(e) => {
           const value = e.target.value;
           const regex = /^[0-9]*$/; // Expresión regular para aceptar solo números
@@ -108,6 +110,10 @@ const TableEvents = () => {
           <Column field="id" header="ID"></Column>
           <Column field="name" header="Nombre"></Column>
           <Column field="date" header="Fecha"></Column>
+          <Column
+            header="Resultados"
+            body={(rowData) => <EventsResults rowData={rowData} />}
+          ></Column>
           <Column
             header="Editar"
             body={(rowData) => (

@@ -4,7 +4,6 @@ import { Dialog } from "primereact/dialog";
 import { InputText } from "primereact/inputtext";
 import { Calendar } from "primereact/calendar"; // Importar el componente Calendar
 import Swal from "sweetalert2";
-import withReactContent from "sweetalert2-react-content";
 
 const EditEvent = ({ rowData, setUpdate }) => {
   const [visible, setVisible] = useState(false);
@@ -24,7 +23,6 @@ const EditEvent = ({ rowData, setUpdate }) => {
   const [name, setName] = useState(rowData.name);
 
   const updateEvent = () => {
-    const MySwal = withReactContent(Swal);
     const updateEvent = {
       name: name,
       date: date,
@@ -41,25 +39,47 @@ const EditEvent = ({ rowData, setUpdate }) => {
       .then((data) => {
         setVisible(false);
         if (data.state) {
-          MySwal.fire({
+          Swal.fire({
             title: "¡Evento editado correctamente!",
             icon: "success",
           });
           setUpdate(true);
         } else {
-          MySwal.fire({
-            title: `Error al editar el evento: ${data.error}`, // Muestra el error proporcionado por el servidor
+          Swal.fire({
+            title: `Error al editar el evento: ${
+              data.error == undefined ? "Campos invalidos" : data.error
+            }`, // Muestra el error proporcionado por el servidor
             icon: "error",
+          }).then(() => {
+            setVisible(true);
           });
         }
       })
       .catch((error) => {
         setVisible(false);
-        MySwal.fire({
+        Swal.fire({
           title: `Error al editar el evento: ${error}`, // Muestra el mensaje de error de la excepción
           icon: "error",
+        }).then(() => {
+          setVisible(true);
         });
       });
+  };
+
+  const reloadValues = () => {
+    setId(rowData.id);
+    setName(rowData.name);
+    setDate(() => {
+      const parts = rowData.date.split("/"); // Divide la cadena en partes: día, mes y año
+      // Asegúrate de que las partes estén en el orden correcto para el constructor de Date (año, mes - 1, día)
+      const dateObject = new Date(
+        parseInt(parts[2]),
+        parseInt(parts[1]) - 1,
+        parseInt(parts[0])
+      );
+      return dateObject;
+    });
+    setVisible(false);
   };
 
   const headerElement = (
@@ -71,7 +91,13 @@ const EditEvent = ({ rowData, setUpdate }) => {
   const footerContent = (
     <div>
       <Button
-        label="aceptar"
+        label="Cancelar"
+        icon="pi pi-times"
+        severity="danger"
+        onClick={() => reloadValues()}
+      />
+      <Button
+        label="Aceptar"
         icon="pi pi-user-edit"
         severity="success"
         onClick={() => updateEvent()}
@@ -92,7 +118,10 @@ const EditEvent = ({ rowData, setUpdate }) => {
         header={headerElement}
         footer={footerContent}
         style={{ width: "50rem" }}
-        onHide={() => setVisible(false)}
+        onHide={() => {
+          reloadValues();
+          setVisible(false);
+        }}
       >
         {/**Form */}
         <div className="card flex flex-column md:flex-row gap-3">

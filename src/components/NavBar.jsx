@@ -4,7 +4,7 @@ import { Menubar } from 'primereact/menubar';
 const NavBar = () => {
     const items = [
         {
-            key: "home",
+            key: "disciplina",
             label: 'Disciplina',
             icon: 'pi pi-sitemap',
             url: "/disciplina"
@@ -16,10 +16,10 @@ const NavBar = () => {
             url: "/eventos"
         },
         {
-            key: "contact",
+            key: "afiliados",
             label: 'Afiliados',
             icon: 'pi pi-user-plus',
-            url: "/"
+            url: "/afiliados"
         }
     ];
 

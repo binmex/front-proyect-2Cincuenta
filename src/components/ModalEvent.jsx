@@ -4,7 +4,6 @@ import { Dialog } from "primereact/dialog";
 import { InputText } from "primereact/inputtext";
 import { Calendar } from "primereact/calendar"; // Importar el componente Calendar
 import Swal from "sweetalert2";
-import withReactContent from "sweetalert2-react-content";
 
 const ModalEvent = ({ setUpdate }) => {
   const [visible, setVisible] = useState(false);
@@ -25,8 +24,6 @@ const ModalEvent = ({ setUpdate }) => {
   };
 
   const saveEvent = () => {
-    const MySwal = withReactContent(Swal);
-
     // Datos del evento que deseas enviar
     const eventData = {
       id: id, // Asegúrate de tener las variables id, name y date definidas
@@ -57,23 +54,27 @@ const ModalEvent = ({ setUpdate }) => {
       .then((data) => {
         setVisible(false);
         if (data.state) {
-          MySwal.fire({
+          Swal.fire({
             title: "¡Evento agregado correctamente!",
             icon: "success",
           });
           setUpdate(true);
           clean();
         } else {
-          MySwal.fire({
+          console.log(data.error);
+          Swal.fire({
             title: `Error al agregar el evento: ${data.error}`, // Muestra el error proporcionado por el servidor
             icon: "error",
           });
         }
       })
       .catch((error) => {
-        MySwal.fire({
-          title: `Error al agregar el evento: ${error}`, // Muestra el mensaje de error de la excepción
+        setVisible(false);
+        Swal.fire({
+          title: `${error}`, // Muestra el mensaje de error de la excepción
           icon: "error",
+        }).then(() => {
+          setVisible(true);
         });
       });
   };
@@ -81,10 +82,13 @@ const ModalEvent = ({ setUpdate }) => {
   const footerContent = (
     <div>
       <Button
-        label="limpiar"
-        icon="pi pi-eraser"
-        severity="warning"
-        onClick={clean}
+        label="Cancelar"
+        icon="pi pi-times"
+        severity="danger"
+        onClick={() => {
+          clean();
+          setVisible(false);
+        }}
       />
       <Button
         label="Guardar"
@@ -107,7 +111,10 @@ const ModalEvent = ({ setUpdate }) => {
         header={headerElement}
         footer={footerContent}
         style={{ width: "50rem" }}
-        onHide={() => setVisible(false)}
+        onHide={() => {
+          clean();
+          setVisible(false);
+        }}
       >
         <div className="card flex flex-column md:flex-row gap-3">
           <div className="p-inputgroup flex-1">
