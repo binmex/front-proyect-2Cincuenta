@@ -3,7 +3,7 @@ import { DataTable } from "primereact/datatable";
 import { Column } from "primereact/column";
 import ModalEvent from "./ModalEvent";
 import { Card } from "primereact/card";
-import NavBar from "./NavBar";
+import NavBar from "../NavBar";
 import { InputText } from "primereact/inputtext";
 import EditEvent from "./EditEvent";
 import DeleteEvent from "./DeleteEvent";
