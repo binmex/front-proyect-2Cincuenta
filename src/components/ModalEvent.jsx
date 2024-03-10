@@ -1,11 +1,10 @@
 import React, { useState } from "react";
 import { Button } from "primereact/button";
 import { Dialog } from "primereact/dialog";
-import { InputNumber } from "primereact/inputnumber";
 import { InputText } from "primereact/inputtext";
 import { Calendar } from "primereact/calendar"; // Importar el componente Calendar
 
-const ModalEvent = () => {
+const ModalEvent = ({ setUpdate }) => {
   const [visible, setVisible] = useState(false);
   const [id, setId] = useState("");
   const [name, setName] = useState("");
@@ -58,6 +57,7 @@ const ModalEvent = () => {
       .catch((error) => {
         console.error("Error al guardar el evento:", error);
       });
+    setUpdate(true);
   };
 
   const footerContent = (
@@ -68,7 +68,12 @@ const ModalEvent = () => {
         severity="warning"
         onClick={clean}
       />
-      <Button label="Guardar" icon="pi pi-user-edit" severity="success" />
+      <Button
+        label="Guardar"
+        icon="pi pi-user-edit"
+        severity="success"
+        onClick={saveEvent}
+      />
     </div>
   );
 

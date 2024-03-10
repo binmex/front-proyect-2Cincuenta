@@ -10,14 +10,18 @@ const TableEvents = () => {
   const [events, setEvents] = useState([]);
   const [eventSearch, setEventSearch] = useState("");
   const [originalEvents, setOriginalEvents] = useState([]); // Mantén una copia de respaldo de los eventos originales
+  const [update, setUpdate] = useState(true);
 
   useEffect(() => {
+  if (update) {
     if (eventSearch) {
       searchEvents();
     } else {
       loadEvents();
     }
-  }, [eventSearch]);
+    setUpdate(false); // Desactivar la actualización después de ejecutar una vez
+  }
+}, [eventSearch, update]);
 
   const loadEvents = async () => {
     try {
@@ -68,10 +72,11 @@ const TableEvents = () => {
           const regex = /^[0-9]*$/; // Expresión regular para aceptar solo números
           if (regex.test(value)) {
             setEventSearch(value);
+            setUpdate(true);
           }
         }}
       />
-      <ModalEvent />
+      <ModalEvent setUpdate={setUpdate} />
     </div>
   );
 
