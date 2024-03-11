@@ -1,43 +1,42 @@
 import React, { useState, useEffect } from "react";
 import { DataTable } from "primereact/datatable";
 import { Column } from "primereact/column";
-import DisciplineAfiliates from "./DisciplineAfiliates";
-import EditDiscipline from "./EditDiscipline";
-import DeleteComponent from "../DeleteComponent";
 import { Card } from "primereact/card";
 import { InputText } from "primereact/inputtext";
-import ModalDiscipline from "./ModalDiscipline";
+import ModalResult from "./ModalResult";
+import DisciplineAfiliates from "../discipline/DisciplineAfiliates";
+import DeleteComponent from "../DeleteComponent";
 
-const TableDiscipline = () => {
-  const [discipline, setDiscipline] = useState([]);
+const TableResult = () => {
+  const [result, setResult] = useState([]);
   const [flag, setFlag] = useState(false);
 
-  const [disciplineSearch, setDisciplineSearch] = useState("");
-  const [originalDiscipline, setOriginalDiscipline] = useState([]); // Mantén una copia de respaldo de los eventos originales
+  const [resultSearch, setResultSearch] = useState("");
+  const [originalresult, setOriginalresult] = useState([]); // Mantén una copia de respaldo de los eventos originales
 
   useEffect(() => {
     loadTable();
   }, [flag]);
 
   useEffect(() => {
-    if (disciplineSearch) {
+    if (resultSearch) {
       searchEvents();
     } else {
       loadTable();
     }
-  }, [disciplineSearch]);
+  }, [resultSearch]);
 
   const searchEvents = () => {
     // Filtrar los eventos originales según el valor de búsqueda
-    const filterDiscipline = originalDiscipline.filter((event) => {
+    const filterresult = originalresult.filter((event) => {
       // Convertir el id del evento y el valor de búsqueda en cadenas
-      const disciplineIdString = event.id.toString();
-      const searchIdString = disciplineSearch.toString();
+      const resultIdString = event.id.toString();
+      const searchIdString = resultSearch.toString();
 
       // Verificar si el id del evento coincide con el valor de búsqueda en orden exacto
-      if (disciplineIdString.length >= searchIdString.length) {
+      if (resultIdString.length >= searchIdString.length) {
         for (let i = 0; i < searchIdString.length; i++) {
-          if (disciplineIdString[i] !== searchIdString[i]) {
+          if (resultIdString[i] !== searchIdString[i]) {
             return false;
           }
         }
@@ -48,15 +47,15 @@ const TableDiscipline = () => {
     });
 
     // Actualizar el estado de los eventos filtrados
-    setDiscipline(filterDiscipline);
+    setResult(filterresult);
   };
 
   const loadTable = () => {
-    fetch("http://localhost:4000/discipline/")
+    fetch("http://localhost:4000/result/")
       .then((response) => response.json())
       .then((result) => {
-        setDiscipline(result.data);
-        setOriginalDiscipline(result.data); // Guarda una copia de los eventos originales
+        setResult(result.data);
+        setOriginalresult(result.data); // Guarda una copia de los eventos originales
         setFlag(false);
       })
       .catch((error) => {
@@ -73,27 +72,27 @@ const TableDiscipline = () => {
           const value = e.target.value;
           const regex = /^[0-9]*$/; // Expresión regular para aceptar solo números
           if (regex.test(value)) {
-            setDisciplineSearch(value);
+            setResultSearch(value);
           }
         }}
       />
-      <ModalDiscipline setFlag={setFlag} />
+      <ModalResult setFlag={setFlag} />
     </div>
   );
 
   const header = (
     <div className="flex flex-wrap align-items-center justify-content-between ">
-      <span className="text-xl text-900 font-bold">Disciplinas</span>
+      <span className="text-xl text-900 font-bold">Resultados</span>
     </div>
   );
   const footer = `En total hay ${
-    discipline ? discipline.length : 0
-  } products.`;
+    result ? result.length : 0
+  } resultados registradas.`;
 
   return (
     <Card title={search} style={{ margin: "15px" }}>
       <DataTable
-        value={discipline}
+        value={result}
         header={header}
         footer={footer}
         tableStyle={{ minWidth: "60rem" }}
@@ -101,22 +100,15 @@ const TableDiscipline = () => {
         sortOrder={1}
       >
         <Column field="id" header="ID"></Column>
-        <Column field="name" header="Nombre"></Column>
-        <Column field="type" header="Categoria"></Column>
+        <Column field="puesto" header="Puesto"></Column>
         <Column
           header="Afiliados"
           body={(rowData) => <DisciplineAfiliates rowData={rowData} />}
         ></Column>
         <Column
-          header="Editar"
-          body={(rowData) => (
-            <EditDiscipline rowData={rowData} setFlag={setFlag} />
-          )}
-        ></Column>
-        <Column
           header="Eliminar"
           body={(rowData) => (
-            <DeleteComponent rowData={`http://localhost:4000/discipline/${rowData._id}`} setFlag={setFlag} />
+            <DeleteComponent rowData={`http://localhost:4000/result/${rowData.id}`} setFlag={setFlag} />
           )}
         ></Column>
       </DataTable>
@@ -124,4 +116,4 @@ const TableDiscipline = () => {
   );
 };
 
-export default TableDiscipline;
+export default TableResult;

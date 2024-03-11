@@ -16,7 +16,7 @@ const DeleteDiscipline = ({ rowData, setFlag }) => {
       cancelButtonText: "Cancelar", // Cambiar el label del botón de cancelar
     }).then((result) => {
       if (result.isConfirmed) {
-        fetch(`http://localhost:4000/discipline/${rowData}`, {
+        fetch(`${rowData}`, {
           method: "DELETE",
           headers: {
             "Content-Type": "application/json",
@@ -36,7 +36,7 @@ const DeleteDiscipline = ({ rowData, setFlag }) => {
           })
           .catch((error) => {
             Swal.fire({
-              title: `Error al elminar la disciplina: ${error}`,
+              title: `Error al elminar: ${error}`,
               icon: "error",
             })
           });

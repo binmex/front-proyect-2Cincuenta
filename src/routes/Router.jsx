@@ -4,6 +4,7 @@ import Home from "../pages/Home";
 import Discipline from "../pages/Discipline";
 import Events from "../pages/Events";
 import Affiliate from "../pages/Affiliate"
+import Result from "../pages/Result";
 
 
 const routes = () => {
@@ -14,6 +15,7 @@ const routes = () => {
         <Route path="/eventos" Component={Events} />
         <Route path="/disciplina" Component={Discipline} />
         <Route path="/afiliados" Component={Affiliate} />
+        <Route path="/resultados" Component={Result} />
       </Routes>
     </BrowserRouter>
   );

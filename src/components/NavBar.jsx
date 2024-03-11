@@ -20,6 +20,12 @@ const NavBar = () => {
             label: 'Afiliados',
             icon: 'pi pi-user-plus',
             url: "/afiliados"
+        },
+        {
+            key: "resultados",
+            label: 'Resultados',
+            icon: 'pi pi-megaphone',
+            url: "/resultados"
         }
     ];
 
