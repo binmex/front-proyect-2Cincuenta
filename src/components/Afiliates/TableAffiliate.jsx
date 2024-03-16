@@ -113,7 +113,7 @@ const TableAffiliate = () => {
             header="disciplinas"
             body={(rowData) => (
               <DisciplineAfiliates2 rowData={rowData}/>
-            // <DisciplineAfiliates2 key={rowData.id} rowData={rowData}/>
+          
             )}
         ></Column>
 
@@ -123,13 +123,13 @@ const TableAffiliate = () => {
             <EditAffiliate rowData={rowData} setFlag={setFlag} />
           )}
         ></Column>
-        {/*
+        
         <Column
           header="Eliminar"
           body={(rowData) => (
-            <DeleteAffiliate rowData={`http://localhost:4000/affiliate/${rowData._id}`} setFlag={setFlag} />
+            <DeleteAffiliate rowData={`http://localhost:4000/affiliate/${rowData.id}`} setFlag={setFlag} />
           )}
-        ></Column> */}
+        ></Column>
       </DataTable>
       </Card>
   );
