@@ -6,6 +6,7 @@ import { InputText } from "primereact/inputtext";
 import ModalResult from "./ModalResult";
 import DisciplineAfiliates from "../discipline/DisciplineAfiliates";
 import DeleteComponent from "../DeleteComponent";
+import EventsModal from "./EventsModal";
 
 const TableResult = () => {
   const [result, setResult] = useState([]);
@@ -106,11 +107,18 @@ const TableResult = () => {
           body={(rowData) => <DisciplineAfiliates rowData={rowData} />}
         ></Column>
         <Column
+            header="Eventos"
+            body={(rowData) => (
+              <EventsModal rowData={rowData}/>
+            )}
+        ></Column>
+        <Column
           header="Eliminar"
           body={(rowData) => (
             <DeleteComponent rowData={`http://localhost:4000/result/${rowData.id}`} setFlag={setFlag} />
           )}
         ></Column>
+        
       </DataTable>
     </Card>
   );
