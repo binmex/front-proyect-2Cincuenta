@@ -117,12 +117,13 @@ const TableAffiliate = () => {
             )}
         ></Column>
 
-        {/* <Column
+         <Column
           header="Editar"
           body={(rowData) => (
             <EditAffiliate rowData={rowData} setFlag={setFlag} />
           )}
         ></Column>
+        {/*
         <Column
           header="Eliminar"
           body={(rowData) => (
