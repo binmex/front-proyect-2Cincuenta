@@ -1,8 +1,8 @@
 import React from 'react'
 import NavBar from '../components/NavBar'
-import TableAffiliate from '../components/TableAffiliate'
+import TableAffiliate from '../components/Afiliates/TableAffiliate'
 
-const Discipline = () => {
+const Affiliate = () => {
   return (
     <>
     <NavBar/>
@@ -11,4 +11,4 @@ const Discipline = () => {
   )
 }
 
-export default Discipline
+export default Affiliate

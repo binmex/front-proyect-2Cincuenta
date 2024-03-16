@@ -1,12 +1,14 @@
 import React, { useState, useEffect } from "react";
 import { DataTable } from "primereact/datatable";
 import { Column } from "primereact/column";
+
 import DisciplineAfiliates from "./DisciplineAfiliates";
 import EditDiscipline from "./EditDiscipline";
 import DeleteComponent from "../DeleteComponent";
+import ModalDiscipline from "./ModalDiscipline";
+
 import { Card } from "primereact/card";
 import { InputText } from "primereact/inputtext";
-import ModalDiscipline from "./ModalDiscipline";
 
 const TableDiscipline = () => {
   const [discipline, setDiscipline] = useState([]);
@@ -105,7 +107,9 @@ const TableDiscipline = () => {
         <Column field="type" header="Categoria"></Column>
         <Column
           header="Afiliados"
-          body={(rowData) => <DisciplineAfiliates rowData={rowData} />}
+          body={(rowData) =>(
+             <DisciplineAfiliates rowData={rowData} />
+             )}
         ></Column>
         <Column
           header="Editar"
