@@ -4,12 +4,28 @@ import { Column } from "primereact/column";
 import { Button } from "primereact/button";
 import { Dialog } from "primereact/dialog";
 
-const EventsModal = ({rowData}) => {
+const EventsModal = ({ rowData }) => {
   const [visible, setVisible] = useState(false);
-  const [row, setRow] = useState();
+  const [row, setRow] = useState([]);
   useEffect(() => {
-    setRow(rowData.events);
-  }, []);
+    if (rowData && rowData.events) {
+      setRow(rowData.events);
+    }
+  }, [rowData]);
+
+  useEffect(() => {
+    if (row.length > 0) {
+      // Realizar procesamiento adicional en la fecha aquí
+      const fechasArreglo = row.map((evento) => {
+        const date = new Date(evento.date);
+        const day = date.getDate();
+        const month = date.getMonth() + 1;
+        const year = date.getFullYear();
+        return `${day}/${month}/${year}`;
+      });
+      row[0].date = fechasArreglo;
+    }
+  }, [row]);
   return (
     <div className="card flex justify-content-center">
       <Button

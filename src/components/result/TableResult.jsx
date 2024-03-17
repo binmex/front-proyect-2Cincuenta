@@ -77,7 +77,7 @@ const TableResult = () => {
           }
         }}
       />
-      <ModalResult setFlag={setFlag} />
+      <ModalResult setUpdate={setFlag} />
     </div>
   );
 
@@ -107,18 +107,18 @@ const TableResult = () => {
           body={(rowData) => <DisciplineAfiliates rowData={rowData} />}
         ></Column>
         <Column
-            header="Eventos"
-            body={(rowData) => (
-              <EventsModal rowData={rowData}/>
-            )}
+          header="Eventos"
+          body={(rowData) => <EventsModal rowData={rowData} />}
         ></Column>
         <Column
           header="Eliminar"
           body={(rowData) => (
-            <DeleteComponent rowData={`https://back-proyect-2-cincuenta.vercel.app/result/${rowData.id}`} setFlag={setFlag} />
+            <DeleteComponent
+              rowData={`https://back-proyect-2-cincuenta.vercel.app/result/${rowData.id}`}
+              setFlag={setFlag}
+            />
           )}
         ></Column>
-        
       </DataTable>
     </Card>
   );

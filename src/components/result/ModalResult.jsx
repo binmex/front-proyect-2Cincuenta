@@ -1,15 +1,62 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Button } from "primereact/button";
 import { Dialog } from "primereact/dialog";
 import { InputText } from "primereact/inputtext";
-import { Calendar } from "primereact/calendar"; // Importar el componente Calendar
+import { Dropdown } from "primereact/dropdown";
 import Swal from "sweetalert2";
 
 const ModalResult = ({ setUpdate }) => {
   const [visible, setVisible] = useState(false);
   const [id, setId] = useState("");
-  const [name, setName] = useState("");
-  const [date, setDate] = useState(null); // Estado para la fecha, inicializado como null
+  const [postion, setPostion] = useState("");
+  const [affiliates, setAffiliates] = useState([]); // Estado para la fecha, inicializado como null
+  const [selectedAffiliate, setSelectedAffiliate] = useState(null);
+  const [events, setEvents] = useState([]); // Estado para la fecha, inicializado como null
+  const [selectedEvent, setSelectedEvent] = useState(null);
+
+  const dropdownOptionsAffiliates = affiliates.map((affiliate) => ({
+    label: affiliate.name,
+    value: affiliate._id,
+  }));
+
+  const dropdownOptionsEvents = events.map((event) => ({
+    label: event.name,
+    value: event._id,
+  }));
+
+  useEffect(() => {
+    loadEvents();
+    loadAfiliates();
+  }, []);
+
+  const loadEvents = async () => {
+    try {
+      await fetch("https://back-proyect-2-cincuenta.vercel.app/event/")
+        .then((response) => response.json())
+        .then((resultado) => {
+          const formattedEvents = resultado.data.map((event) => {
+            return {
+              ...event,
+              date: new Date(event.date).toLocaleDateString(),
+            };
+          });
+          setEvents(formattedEvents);
+        });
+    } catch (error) {
+      console.error("Error al cargar eventos:", error);
+    }
+  };
+
+  const loadAfiliates = () => {
+    fetch("https://back-proyect-2-cincuenta.vercel.app/affiliate/")
+      .then((response) => response.json())
+      .then((result) => {
+        setAffiliates(result.data);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  };
 
   const headerElement = (
     <div className="inline-flex align-items-center justify-content-center gap-2">
@@ -19,29 +66,30 @@ const ModalResult = ({ setUpdate }) => {
 
   const clean = () => {
     setId("");
-    setName("");
-    setDate(null);
+    setPostion("");
+    setSelectedAffiliate(null);
+    setSelectedEvent(null);
   };
 
-  const saveEvent = () => {
+  const saveResult = () => {
     // Datos del evento que deseas enviar
-    const eventData = {
-      id: id, // Asegúrate de tener las variables id, name y date definidas
-      name: name,
-      date: date,
+    const resultData = {
+      id: id, // Asegúrate de tener las variables id, postion y affiliates definidas
+      puesto: postion,
+      affiliates: { _id: selectedAffiliate },
+      events: { _id: selectedEvent },
     };
-
     // Configuración de la solicitud
     const requestOptions = {
       method: "POST",
       headers: {
         "Content-Type": "application/json", // Especifica el tipo de contenido del cuerpo de la solicitud
       },
-      body: JSON.stringify(eventData), // Convierte el objeto eventData a formato JSON
+      body: JSON.stringify(resultData), // Convierte el objeto resultData a formato JSON
     };
 
     // URL de la API
-    const url = "https://back-proyect-2-cincuenta.vercel.app/event"; // Reemplaza con la URL de tu API
+    const url = "https://back-proyect-2-cincuenta.vercel.app/result/";
 
     // Realizar la solicitud POST
     fetch(url, requestOptions)
@@ -55,20 +103,20 @@ const ModalResult = ({ setUpdate }) => {
         setVisible(false);
         if (data.state) {
           Swal.fire({
-            title: "¡Evento agregado correctamente!",
+            title: "¡Resultado agregado correctamente!",
             icon: "success",
           });
           setUpdate(true);
           clean();
         } else {
-          console.log(data.error);
           Swal.fire({
-            title: `Error al agregar el evento: ${data.error}`, // Muestra el error proporcionado por el servidor
+            title: `Error al agregar el resultado: ${data.error}`, // Muestra el error proporcionado por el servidor
             icon: "error",
           });
         }
       })
       .catch((error) => {
+        console.log(error);
         setVisible(false);
         Swal.fire({
           title: `${error}`, // Muestra el mensaje de error de la excepción
@@ -94,7 +142,7 @@ const ModalResult = ({ setUpdate }) => {
         label="Guardar"
         icon="pi pi-user-edit"
         severity="success"
-        onClick={saveEvent}
+        onClick={saveResult}
       />
     </div>
   );
@@ -121,12 +169,29 @@ const ModalResult = ({ setUpdate }) => {
             <span className="p-inputgroup-addon">ID</span>
             <InputText
               placeholder="ID"
-              value={id} // Asegúrate de enlazar el valor del input con el estado
+              value={id}
               onChange={(e) => {
                 const value = e.target.value;
                 const regex = /^[0-9]*$/; // Expresión regular para aceptar solo números
                 if (regex.test(value)) {
-                  setId(value); // Actualiza el estado solo si la entrada es un número
+                  setId(value);
+                }
+              }}
+            />
+          </div>
+
+          <div className="p-inputgroup flex-1">
+            <span className="p-inputgroup-addon">
+              <i className="pi pi-chart-bar"></i>
+            </span>
+            <InputText
+              placeholder="Posición"
+              value={postion}
+              onChange={(e) => {
+                const value = e.target.value;
+                const regex = /^[0-9]*$/; // Expresión regular para aceptar solo números
+                if (regex.test(value)) {
+                  setPostion(value); // Actualiza el estado solo si la entrada es un número
                 }
               }}
             />
@@ -136,23 +201,23 @@ const ModalResult = ({ setUpdate }) => {
             <span className="p-inputgroup-addon">
               <i className="pi pi-user"></i>
             </span>
-            <InputText
-              placeholder="name"
-              value={name}
-              onChange={(e) => setName(e.target.value)}
+            <Dropdown
+              value={selectedAffiliate}
+              options={dropdownOptionsAffiliates}
+              onChange={(e) => setSelectedAffiliate(e.value)}
+              placeholder="Selecciona un afiliado"
             />
           </div>
 
-          {/* Agregar input para la fecha */}
           <div className="p-inputgroup flex-1">
             <span className="p-inputgroup-addon">
               <i className="pi pi-calendar"></i>
             </span>
-            <Calendar
-              value={date}
-              onChange={(e) => setDate(e.value)}
-              placeholder="Fecha"
-              showIcon
+            <Dropdown
+              value={selectedEvent}
+              options={dropdownOptionsEvents}
+              onChange={(e) => setSelectedEvent(e.value)}
+              placeholder="Selecciona un evento"
             />
           </div>
         </div>
