@@ -28,7 +28,7 @@ const TableEvents = () => {
 
   const loadEvents = async () => {
     try {
-      await fetch("http://localhost:4000/event")
+      await fetch("https://back-proyect-2-cincuenta.vercel.app/event")
         .then((response) => response.json())
         .then((resultado) => {
           const formattedEvents = resultado.data.map((event) => {

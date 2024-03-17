@@ -28,7 +28,7 @@ const EditEvent = ({ rowData, setUpdate }) => {
       date: date,
     };
 
-    fetch(`http://localhost:4000/event/${rowData._id}`, {
+    fetch(`https://back-proyect-2-cincuenta.vercel.app/event/${rowData._id}`, {
       method: "PATCH",
       headers: {
         "Content-Type": "application/json",

@@ -59,7 +59,7 @@ const TableAffiliate = () => {
 
 
   const loadTable = ()=>{
-    fetch("http://localhost:4000/affiliate/")
+    fetch("https://back-proyect-2-cincuenta.vercel.app/affiliate/")
     .then((response)=>response.json())
     .then(result=>{
       setAffiliate(result.data)
@@ -127,7 +127,7 @@ const TableAffiliate = () => {
         <Column
           header="Eliminar"
           body={(rowData) => (
-            <DeleteAffiliate rowData={`http://localhost:4000/affiliate/${rowData.id}`} setFlag={setFlag} />
+            <DeleteAffiliate rowData={`https://back-proyect-2-cincuenta.vercel.app/affiliate/${rowData.id}`} setFlag={setFlag} />
           )}
         ></Column>
       </DataTable>

@@ -17,7 +17,7 @@ const DeleteEvent = ({ rowData, setUpdate }) => {
     }).then((result) => {
       if (result.isConfirmed) {
         // Si el usuario confirma, eliminar el evento
-        fetch(`http://localhost:4000/event/${rowData._id}`, {
+        fetch(`https://back-proyect-2-cincuenta.vercel.app/event/${rowData._id}`, {
           method: "DELETE",
           headers: {
             "Content-Type": "application/json",

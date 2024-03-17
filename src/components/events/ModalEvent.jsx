@@ -41,7 +41,7 @@ const ModalEvent = ({ setUpdate }) => {
     };
 
     // URL de la API
-    const url = "http://localhost:4000/event"; // Reemplaza con la URL de tu API
+    const url = "https://back-proyect-2-cincuenta.vercel.app/event"; // Reemplaza con la URL de tu API
 
     // Realizar la solicitud POST
     fetch(url, requestOptions)

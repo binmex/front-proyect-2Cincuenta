@@ -32,7 +32,7 @@ const ModalAffiliate = () => {
       discipline: { _id: selectedDiscipline }
    };
    
-    fetch("http://localhost:4000/affiliate/", {
+    fetch("https://back-proyect-2-cincuenta.vercel.app/affiliate/", {
        method: "POST",
        headers: {
          "Content-Type": "application/json",
@@ -65,7 +65,7 @@ const ModalAffiliate = () => {
    };
   const fetchDisciplines = async () => {
     try {
-      const response = await fetch("http://localhost:4000/discipline");
+      const response = await fetch("https://back-proyect-2-cincuenta.vercel.app/discipline");
       if (!response.ok) {
         throw new Error("Failed to fetch disciplines");
       }
@@ -108,7 +108,6 @@ const closeDialog = () => {
   return (
     <div className="card flex justify-content-center">
       <Button
-        label="nuevo afiliado"
         icon="pi pi-save"
         onClick={() =>  openDialog()}
       />

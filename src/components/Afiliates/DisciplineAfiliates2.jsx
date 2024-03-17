@@ -13,7 +13,7 @@ const DisciplineAfiliates2 = ({rowData}) => {
   return (
     <div className="card flex justify-content-center">
       <Button
-        label="disciplinas"
+        label="Disciplinas"
         icon="pi pi-users"
         severity="info"
         onClick={() => setVisible(true)}

@@ -28,7 +28,7 @@ const EditAffiliate = ({ rowData, setFlag }) => {
       email:email,
     };
 
-    fetch(`http://localhost:4000/affiliate/${id}`, {
+    fetch(`https://back-proyect-2-cincuenta.vercel.app/affiliate/${id}`, {
       method: "PATCH",
       headers: {
         "Content-Type": "application/json",
