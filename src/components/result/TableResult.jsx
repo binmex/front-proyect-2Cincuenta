@@ -52,7 +52,7 @@ const TableResult = () => {
   };
 
   const loadTable = () => {
-    fetch("http://localhost:4000/result/")
+    fetch("https://back-proyect-2-cincuenta.vercel.app/result/")
       .then((response) => response.json())
       .then((result) => {
         setResult(result.data);
@@ -115,7 +115,7 @@ const TableResult = () => {
         <Column
           header="Eliminar"
           body={(rowData) => (
-            <DeleteComponent rowData={`http://localhost:4000/result/${rowData.id}`} setFlag={setFlag} />
+            <DeleteComponent rowData={`https://back-proyect-2-cincuenta.vercel.app/result/${rowData.id}`} setFlag={setFlag} />
           )}
         ></Column>
         

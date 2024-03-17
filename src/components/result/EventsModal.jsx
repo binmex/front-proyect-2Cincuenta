@@ -14,7 +14,7 @@ const EventsModal = ({rowData}) => {
     <div className="card flex justify-content-center">
       <Button
         label="Eventos"
-        icon="pi pi-calendar"
+        icon="pi pi-calendar "
         severity="secondary"
         onClick={() => setVisible(true)}
       />

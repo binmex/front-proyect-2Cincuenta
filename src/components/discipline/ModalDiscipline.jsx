@@ -27,7 +27,7 @@ const ModalDiscipline = ({ setFlag }) => {
       type: selectedType.name,
     };
 
-    fetch("http://localhost:4000/discipline/", {
+    fetch("https://back-proyect-2-cincuenta.vercel.app/discipline/", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",

@@ -26,7 +26,7 @@ const EditDiscipline = ({ rowData, setFlag }) => {
       type: selectedType.name,
     };
 
-    fetch(`http://localhost:4000/discipline/${id}`, {
+    fetch(`https://back-proyect-2-cincuenta.vercel.app/discipline/${id}`, {
       method: "PATCH",
       headers: {
         "Content-Type": "application/json",

@@ -54,7 +54,7 @@ const TableDiscipline = () => {
   };
 
   const loadTable = () => {
-    fetch("http://localhost:4000/discipline/")
+    fetch("https://back-proyect-2-cincuenta.vercel.app/discipline/")
       .then((response) => response.json())
       .then((result) => {
         setDiscipline(result.data);
@@ -120,7 +120,7 @@ const TableDiscipline = () => {
         <Column
           header="Eliminar"
           body={(rowData) => (
-            <DeleteComponent rowData={`http://localhost:4000/discipline/${rowData._id}`} setFlag={setFlag} />
+            <DeleteComponent rowData={`https://back-proyect-2-cincuenta.vercel.app/discipline/${rowData._id}`} setFlag={setFlag} />
           )}
         ></Column>
       </DataTable>
