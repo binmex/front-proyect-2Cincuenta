@@ -7,6 +7,7 @@ import ModalResult from "./ModalResult";
 import DisciplineAfiliates from "../discipline/DisciplineAfiliates";
 import DeleteComponent from "../DeleteComponent";
 import EventsModal from "./EventsModal";
+import EditResult from "./EditResult";
 
 const TableResult = () => {
   const [result, setResult] = useState([]);
@@ -109,6 +110,15 @@ const TableResult = () => {
         <Column
           header="Eventos"
           body={(rowData) => <EventsModal rowData={rowData} />}
+        ></Column>
+        <Column
+          header="Editar"
+          body={(rowData) => (
+            <EditResult
+              rowData={rowData}
+              setUpdate={setFlag}
+            />
+          )}
         ></Column>
         <Column
           header="Eliminar"
