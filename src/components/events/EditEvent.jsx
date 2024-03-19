@@ -4,6 +4,7 @@ import { Dialog } from "primereact/dialog";
 import { InputText } from "primereact/inputtext";
 import { Calendar } from "primereact/calendar"; // Importar el componente Calendar
 import Swal from "sweetalert2";
+import { useEffect } from "react";
 
 const EditEvent = ({ rowData, setUpdate }) => {
   const [visible, setVisible] = useState(false);
@@ -19,8 +20,13 @@ const EditEvent = ({ rowData, setUpdate }) => {
     return dateObject;
   });
 
-  const [id, setId] = useState(rowData.id);
-  const [name, setName] = useState(rowData.name);
+  const [id, setId] = useState();
+  const [name, setName] = useState();
+
+  useEffect(()=>{
+    setId(rowData.id)
+    setName(rowData.name)
+  },[rowData])
 
   const updateEvent = () => {
     const updateEvent = {

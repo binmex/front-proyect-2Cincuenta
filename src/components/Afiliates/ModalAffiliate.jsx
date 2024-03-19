@@ -47,6 +47,7 @@ const ModalAffiliate = () => {
              title: <p>Agregado</p>,
              icon: "success",
            });
+           setFlag(true)
          } else {
            MySwal.fire({
              title: <p>{data.error}</p>,

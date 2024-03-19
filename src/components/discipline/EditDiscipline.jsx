@@ -10,14 +10,20 @@ import withReactContent from "sweetalert2-react-content";
 
 const EditDiscipline = ({ rowData, setFlag }) => {
   const [visible, setVisible] = useState(false);
-  const [selectedType, setSelectedType] = useState(rowData.type);
-  const [id, setID] = useState(rowData.id);
-  const [name, setName] = useState(rowData.name);
+  const [selectedType, setSelectedType] = useState("");
+  const [id, setID] = useState("");
+  const [name, setName] = useState("");
 
   const tipies = [
     { name: "Grupal", code: "GR" },
     { name: "Individual", code: "IN" },
   ];
+
+  useEffect(()=>{
+    setID(rowData.id)
+    setName(rowData.name)
+    setSelectedType(rowData.type)
+  },[rowData])
 
   const updateDiscipline = () => {
     const MySwal = withReactContent(Swal);

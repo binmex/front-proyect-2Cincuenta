@@ -11,13 +11,20 @@ import withReactContent from "sweetalert2-react-content";
 const EditAffiliate = ({ rowData, setFlag }) => {
   const [visible, setVisible] = useState(false);
  
-  const [id, setID] = useState(rowData.id);
-  const [name, setName] = useState(rowData.name);
+  const [id, setID] = useState("");
+  const [name, setName] = useState("");
 
-  const [celphone, setCelphone] = useState(rowData.celphone);
-  const [email, setEmail] = useState(rowData.email);
+  const [celphone, setCelphone] = useState("");
+  const [email, setEmail] = useState("");
   // const [selectedDiscipline, setSelectedDiscipline] = useState(rowData.discipline);
   // const [disciplines, setDisciplines] = useState([]);
+
+  useEffect(()=>{
+    setID(rowData.id)
+    setName(rowData.name)
+    setCelphone(rowData.celphone)
+    setEmail(rowData.email)
+  },[rowData])
 
 
   const updateAffiliate = () => {
