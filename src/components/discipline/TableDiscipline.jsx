@@ -90,7 +90,7 @@ const TableDiscipline = () => {
   );
   const footer = `En total hay ${
     discipline ? discipline.length : 0
-  } products.`;
+  } disciplinas.`;
 
   return (
     <Card title={search} style={{ margin: "15px" }}>
