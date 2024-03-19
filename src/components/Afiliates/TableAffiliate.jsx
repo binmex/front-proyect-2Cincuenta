@@ -11,20 +11,15 @@ import DeleteAffiliate from "../DeleteComponent";
 import { Card } from "primereact/card";
 import { InputText } from "primereact/inputtext";
 
-
-
-
-
 const TableAffiliate = () => {
   const [affiliate, setAffiliate] = useState([]);
-  const [flag,setFlag] = useState(false);
+  const [flag, setFlag] = useState(false);
 
   const [affiliateSearch, setAffiliateSearch] = useState("");
   const [originalaffiliate, setOriginalaffiliate] = useState([]);
-  useEffect(()=>{
+  useEffect(() => {
     loadTable();
-  },[flag])
-
+  }, [flag]);
 
   useEffect(() => {
     if (affiliateSearch) {
@@ -34,41 +29,41 @@ const TableAffiliate = () => {
     }
   }, [affiliateSearch]);
   const searchEvents = () => {
-        // Filtrar los afiliados originales según el valor de búsqueda
-        const filteredAffiliates = originalaffiliate.filter((affiliate) => {
-          // Convertir el id del afiliado y el valor de búsqueda en cadenas
-          const affiliateIdString = affiliate.id.toString();
-          const searchIdString = affiliateSearch.toString();
-    
-          // Verificar si el id del afiliado coincide con el valor de búsqueda en orden exacto
-          if (affiliateIdString.length >= searchIdString.length) {
-            for (let i = 0; i < searchIdString.length; i++) {
-              if (affiliateIdString[i] !== searchIdString[i]) {
-                return false;
-              }
-            }
-            return true;
-          } else {
+    // Filtrar los afiliados originales según el valor de búsqueda
+    const filteredAffiliates = originalaffiliate.filter((affiliate) => {
+      // Convertir el id del afiliado y el valor de búsqueda en cadenas
+      const affiliateIdString = affiliate.id.toString();
+      const searchIdString = affiliateSearch.toString();
+
+      // Verificar si el id del afiliado coincide con el valor de búsqueda en orden exacto
+      if (affiliateIdString.length >= searchIdString.length) {
+        for (let i = 0; i < searchIdString.length; i++) {
+          if (affiliateIdString[i] !== searchIdString[i]) {
             return false;
           }
-        });
-    
-        // Actualizar el estado de los afiliados filtrados
-        setAffiliate(filteredAffiliates);
-      };
+        }
+        return true;
+      } else {
+        return false;
+      }
+    });
 
+    // Actualizar el estado de los afiliados filtrados
+    setAffiliate(filteredAffiliates);
+  };
 
-  const loadTable = ()=>{
+  const loadTable = () => {
     fetch("https://back-proyect-2-cincuenta.vercel.app/affiliate/")
-    .then((response)=>response.json())
-    .then(result=>{
-      setAffiliate(result.data)
-      setOriginalaffiliate(result.data)
-        setFlag(false)})
-        .catch(error=>{
-            console.log(error);
-          })
-  }
+      .then((response) => response.json())
+      .then((result) => {
+        setAffiliate(result.data);
+        setOriginalaffiliate(result.data);
+        setFlag(false);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  };
   const search = (
     <div style={{ display: "flex" }}>
       <InputText
@@ -93,7 +88,7 @@ const TableAffiliate = () => {
   );
   const footer = `In total there are ${
     affiliate ? affiliate.length : 0
-  } products.`;
+  } afiliados.`;
   return (
     <Card title={search} style={{ margin: "15px" }}>
       <DataTable
@@ -110,28 +105,28 @@ const TableAffiliate = () => {
         <Column field="email" header="gmail"></Column>
 
         <Column
-            header="disciplinas"
-            body={(rowData) => (
-              <DisciplineAfiliates2 rowData={rowData}/>
-          
-            )}
+          header="disciplinas"
+          body={(rowData) => <DisciplineAfiliates2 rowData={rowData} />}
         ></Column>
 
-         <Column
+        <Column
           header="Editar"
           body={(rowData) => (
             <EditAffiliate rowData={rowData} setFlag={setFlag} />
           )}
         ></Column>
-        
+
         <Column
           header="Eliminar"
           body={(rowData) => (
-            <DeleteAffiliate rowData={`https://back-proyect-2-cincuenta.vercel.app/affiliate/${rowData.id}`} setFlag={setFlag} />
+            <DeleteAffiliate
+              rowData={`https://back-proyect-2-cincuenta.vercel.app/affiliate/${rowData.id}`}
+              setFlag={setFlag}
+            />
           )}
         ></Column>
       </DataTable>
-      </Card>
+    </Card>
   );
 };
 

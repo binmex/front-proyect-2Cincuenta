@@ -8,7 +8,7 @@ import { Dropdown } from 'primereact/dropdown';
 import Swal from "sweetalert2";
 import withReactContent from "sweetalert2-react-content";
 
-const ModalAffiliate = () => {
+const ModalAffiliate = ({setFlag}) => {
   const [visible, setVisible] = useState(false);
   const [id, setId] = useState("");
   const [name, setName] = useState("");
@@ -16,9 +16,6 @@ const ModalAffiliate = () => {
   const [email, setEmail] = useState("");
   const [selectedDiscipline, setSelectedDiscipline] = useState("");
   const [disciplines, setDisciplines] = useState([]);
-  const [prueba, setprueba] = useState("");
-
-  const [flag,setFlag] = useState(false);
   
   const addAffiliate = () => {
     const MySwal = withReactContent(Swal);
@@ -54,7 +51,6 @@ const ModalAffiliate = () => {
              icon: "error",
            });
          }
-         setFlag(true); 
        })
        .catch((error) => {
          setVisible(false);
